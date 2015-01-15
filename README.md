@@ -1,6 +1,6 @@
 # ORF467 Final Project
 
-** Execution **
+**Execution**
 java AnalyzeData (departure file name) (arrival file name) 
 
 Taken from the final report, which can be found [here...](https://docs.google.com/document/d/1AwHdrxdFGqF6Z_j9f8rb_ZiQKeaqRMhdZI2LZXR9ejk/edit?usp=sharing)
@@ -20,7 +20,7 @@ Using these two data structures, we gave each inputted trip (arrival and departu
 
 This algorithm left us with a final list of taxis necessary to meet the demands created in the input files (see Appendix 5 for raw code). Granted, the numbers produced for this algorithm are just a rough estimate of the demand needed for our counties, but the estimates seem plausible. Additionally, extra taxis will need to be on reserve for unforeseen events, and, at least one taxi of each size will need to be at the station at all times for the same reason.
 
-** Limitations/Room for Improvement **
+**Limitations/Room for Improvement**
 
 Unfortunately, as with any algorithm, there are limitations and room for improvement. For our optimization problem, one of our largest setbacks was the empty mile burden. Because each county was only represented by one pixel, there was no “closer” pixel to which the taxis could return. Every taxi dropped off their passengers, then returned to the home pixel. This created a large empty mile burden for each taxi. Fortunately, this burden could be relieved by collecting more data and treating the externalities like the internal counties. However, the feasibility of this is very low. Another way of alleviating this burden is if the counties share their taxi information with each other. That way, before a taxi returns, it could check surrounding pixels for a return trip, instead of coming back empty. But again, the feasibility of this is very low.
 
