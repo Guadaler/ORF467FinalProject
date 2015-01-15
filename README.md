@@ -1,10 +1,9 @@
 # ORF467 Final Project
+Readme taken from the final report, which can be found [here...](https://docs.google.com/document/d/1AwHdrxdFGqF6Z_j9f8rb_ZiQKeaqRMhdZI2LZXR9ejk/edit?usp=sharing)
 
 Execution
 ------------
 java AnalyzeData (departure file name) (arrival file name) 
-
-Taken from the final report, which can be found [here...](https://docs.google.com/document/d/1AwHdrxdFGqF6Z_j9f8rb_ZiQKeaqRMhdZI2LZXR9ejk/edit?usp=sharing)
 
 aTaxi Optimization
 ----------------------
