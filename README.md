@@ -1,18 +1,22 @@
 # ORF467 Final Project
 
-**Execution**
+Execution
+------------
 java AnalyzeData (departure file name) (arrival file name) 
 
 Taken from the final report, which can be found [here...](https://docs.google.com/document/d/1AwHdrxdFGqF6Z_j9f8rb_ZiQKeaqRMhdZI2LZXR9ejk/edit?usp=sharing)
 
-** aTaxi Optimization **
+aTaxi Optimization
+----------------------
 One of the goals of this analysis is to assess the fleet of aTaxis we would need to service the demand in our counties. Our objective is to acquire the fewest number of aTaxis and minimize the miles each taxi drives without passengers. Moreover, we expect to maintain an AVO within the range of 3-3.5, well above the NJ average, while accommodating every departure from our pixels with minimal or no delay (<5 minutes). 
 
-** Constraints **
+Constraints
+------------
 In order to ease some of the difficulties of this analysis, a few constraints and assumptions were given to all counties, internal and external. The first was briefly mentioned above. We must commit to a level-of-service that takes at least 3 people going in similar directions, where each destination does not significantly change the time / miles it takes to reach the other destinations. In addition to that, no departure can leave more than 5 minutes past its scheduled departure. Simplified, this is just an aTaxi management plan with CD=3, DD=300, and MaxCircuity=20%. On top of that, we assume that each county has its own independent aTaxi Service Company. This means the aTaxis owned by each county will be returned empty to the origin pixel 10 minutes after discharging its last passenger in a “foreign” county. The only exception to this rule is if there is a known departure destined to the origin county within those 10 minutes. Then, the foreign service company will load those passengers into the returning aTaxi - negating the expected empty miles burden on both ends. Since this constraint applies to all NJ counties being analyzed, our counties extend the same courtesy.
 Furthermore, when an aTaxi returns to the county empty, it will arrive and be available for loading/further dispatch after 30mph/(1.2*cartesianDistance) minutes, where cartesianDistance is the distance between the origin pixel and the destination pixel, and 1.2*cartesianDistance is the empty mile burden between those pixels. Because each of our counties can be defined as a supply station for New Jersey, we expect to see both a large fleet size and empty mile burden.
 
-** Approach **
+Approach
+---------
 Focusing on the fact that each of our counties is a supply station for NJ, our approach was to find the fleet size needed to meet the demand presented in the input files. Once found, ideally, the taxis would be placed in a garage/lot near the station when not in use, deployed to the station when a departure is needed, and returned to the station after a trip (if not immediately needed for another departure).
 Following this logic, and applying the constraints, we approached this optimization problem with a “sink”-like algorithm. We created two data structures, “Trip” and “Taxi”, to hold the inputted trip data. The Trip data structure held information about the departure pixel/time, arrival pixel/time, and the time it takes to return to the origin pixel, while the Taxi data structure held an itinerary of trips, and kept track of the size.
 
@@ -20,8 +24,8 @@ Using these two data structures, we gave each inputted trip (arrival and departu
 
 This algorithm left us with a final list of taxis necessary to meet the demands created in the input files (see Appendix 5 for raw code). Granted, the numbers produced for this algorithm are just a rough estimate of the demand needed for our counties, but the estimates seem plausible. Additionally, extra taxis will need to be on reserve for unforeseen events, and, at least one taxi of each size will need to be at the station at all times for the same reason.
 
-**Limitations/Room for Improvement**
-
+Limitations/Room for Improvement
+---------------------------------
 Unfortunately, as with any algorithm, there are limitations and room for improvement. For our optimization problem, one of our largest setbacks was the empty mile burden. Because each county was only represented by one pixel, there was no “closer” pixel to which the taxis could return. Every taxi dropped off their passengers, then returned to the home pixel. This created a large empty mile burden for each taxi. Fortunately, this burden could be relieved by collecting more data and treating the externalities like the internal counties. However, the feasibility of this is very low. Another way of alleviating this burden is if the counties share their taxi information with each other. That way, before a taxi returns, it could check surrounding pixels for a return trip, instead of coming back empty. But again, the feasibility of this is very low.
 
 On another note, there is more room for improvement in the algorithm itself. The algorithm should be updated to deal with time wrapping over midnight. As of right now, 0:05 is treated as a time before 11:59, even though midnight should be counted as coming after. The only issue is knowing how far into the day one must get before the wrap-around is no longer needed. This question/issue is the reason why it is currently not implemented in the algorithm.
